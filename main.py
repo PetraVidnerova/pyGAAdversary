@@ -22,7 +22,7 @@ CXPB = 0.6
 MUTPB = 0.1
 IND_LEN = 784 
 index = 1
-TARGET_OUTPUT = int(sys.argv[1])
+TARGET_OUTPUT = 0
 
 # weights = (1.0,) stands for one objective fitness
 creator.create("FitnessMax", base.Fitness, weights=(-1.0,))
@@ -34,8 +34,11 @@ toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.att
 toolbox.register("population", tools.initRepeat, list, toolbox.individual) 
 #toolbox.register("map", futures.map)
 
-model = model_from_json(open("mlp.json").read()) 
-model.load_weights("mlp_weights.h5")
+models = []
+for i in range(10):
+    model = model_from_json(open("mlp.json").read()) 
+    model.load_weights("mlp_weights_%s.h5" % i)
+    models.append(model)
 
 def mainGA():
     global toolbox 
@@ -70,7 +73,7 @@ X = []
 for target_output in [ TARGET_OUTPUT ]:
     for target_image in range(10):
         print("Target image: %s Target output: %s" % (target_image, target_output))
-        fit = Fitness(model, target_image, target_output)
+        fit = Fitness(models, target_image, target_output)
 
         #Genetic operators 
         toolbox.register("evaluate", fit.evaluate)
@@ -82,7 +85,7 @@ for target_output in [ TARGET_OUTPUT ]:
             
  
 # save X to file 
-np.save("adversary_inputs_matrix_%s" % TARGET_OUTPUT,X)
+np.save("adversary_inputs_matrix_2",X)
 
 
 
