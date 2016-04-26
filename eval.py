@@ -16,8 +16,8 @@ def probs_to_string(prob):
 X = np.load("adversary_inputs_matrix.npy") 
 
 #  Load trained CNN. 
-model = model_from_json(open("mlp2.json").read()) 
-model.load_weights("mlp_weights2.h5")
+model = model_from_json(open("mlp.json").read()) 
+model.load_weights("mlp_weights.h5")
 
 # For each image print prediction. 
 for i in range(0,10):

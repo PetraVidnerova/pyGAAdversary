@@ -13,7 +13,7 @@ img_rows, img_cols = 28, 28
 
 # Load matrix of adversary inputs.
 # one image per line 
-X = np.load("adversary_inputs_matrix.npy") 
+X = np.load("adversary_inputs_against_cnn.npy") 
 X = X.reshape(X.shape[0], 1, img_rows, img_cols)
 
 #  Load trained CNN. 

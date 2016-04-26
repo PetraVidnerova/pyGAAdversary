@@ -14,7 +14,7 @@ def probs_to_string(prob):
 
 # Load matrix of adversary inputs.
 # one image per line 
-X = np.load("adversary_inputs_matrix.npy") 
+X = np.load("adversary_inputs_against_ensemble.npy") 
 
 #  Load trained MLP. 
 model = model_from_json(open("mlp.json").read()) 
@@ -33,28 +33,29 @@ rcParams.update({'font.size': 8})
 
 # For each image print prediction and show image.
 for i in range(0,10):
-    INPUTS = np.array([X[i]])
-    res = model.predict(INPUTS)
+#    INPUTS = np.array([X[i]])
+#    res = model.predict(INPUTS)
     
-    print(probs_to_string(res[0])) 
+ #   print(probs_to_string(res[0])) 
         
-    x = X[i].reshape(28,28)
-    plot.imshow(x, interpolation="none", cmap=plot.cm.Greys)
-    plot.title(probs_to_string(res[0]))
+ #   x = X[i].reshape(28,28)
+ #   plot.imshow(x, interpolation="none", cmap=plot.cm.Greys)
+#    plot.title(probs_to_string(res[0]))
 
-    filename = "ga_%s.eps" % i
-    #plot.savefig(filename, orientation = 'portrait')
-    plot.show() 
+  #  filename = "ga_ensemble_%s.eps" % i
+   # plot.savefig(filename, orientation = 'portrait')
+    #plot.show() 
 
-    train = X_train[i].reshape(28, 28)
-    plot.imshow(train, interpolation="none", cmap=plot.cm.Greys)
+   # train = X_train[i].reshape(28, 28)
+  #  plot.imshow(train, interpolation="none", cmap=plot.cm.Greys)
 
     res = model.predict(np.array([X_train[i]]))
-    plot.title(probs_to_string(res[0]))
+    print(probs_to_string(res[0])) 
+#    plot.title(probs_to_string(res[0]))
 
-    filename = "train_%s.eps" % i
-    #plot.savefig(filename, orientation = 'portrait')
-    plot.show()
+#    filename = "train_%s.eps" % i
+ #   plot.savefig(filename, orientation = 'portrait')
+    #plot.show()
 
 #plot.show()
 
