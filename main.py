@@ -13,32 +13,14 @@ from fitness import Fitness
 from crossover import cxTwoPointCopy
 
 import matplotlib.pyplot as plot
+#from sklearn.externals import joblib 
+import pickle
 
-#from scoop import futures
+import sys
+sys.path.insert(0, '/home/petra/pyRBF/')
+from rbf import *
 
-
-NGEN = 1000
-CXPB = 0.6
-MUTPB = 0.1
-IND_LEN = 784 
-index = 1
-TARGET_OUTPUT = 0
-
-# weights = (1.0,) stands for one objective fitness
-creator.create("FitnessMax", base.Fitness, weights=(-1.0,))
-creator.create("Individual", np.ndarray, fitness=creator.FitnessMax)
-
-toolbox = base.Toolbox()
-toolbox.register("attr_bool", random.random)
-toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_bool, IND_LEN)
-toolbox.register("population", tools.initRepeat, list, toolbox.individual) 
-#toolbox.register("map", futures.map)
-
-models = []
-for i in range(10):
-    model = model_from_json(open("mlp.json").read()) 
-    model.load_weights("mlp_weights_%s.h5" % i)
-    models.append(model)
+from scoop import futures
 
 def mainGA():
     global toolbox 
@@ -69,26 +51,56 @@ def mainGA():
  
 
 
-X = [] 
-for target_output in [ TARGET_OUTPUT ]:
-    for target_image in range(10):
-        print("Target image: %s Target output: %s" % (target_image, target_output))
-        fit = Fitness(models, target_image, target_output)
+NGEN = 10000
+CXPB = 0.6
+MUTPB = 0.1
+IND_LEN = 784 
+index = 1
+TARGET_OUTPUT = 0
 
-        #Genetic operators 
-        toolbox.register("evaluate", fit.evaluate)
-        toolbox.register("mate", cxTwoPointCopy) 
-        toolbox.register("mutate", tools.mutGaussian, mu=0.0, sigma=0.1, indpb=0.05)
-        toolbox.register("select", tools.selTournament, tournsize=3)
+# weights = (1.0,) stands for one objective fitness
+creator.create("FitnessMax", base.Fitness, weights=(-1.0,))
+creator.create("Individual", np.ndarray, fitness=creator.FitnessMax)
 
-        X.append(mainGA())
+
+if __name__ == "__main__": 
+    
+    toolbox = base.Toolbox()
+    toolbox.register("attr_bool", random.random)
+    toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_bool, IND_LEN)
+    toolbox.register("population", tools.initRepeat, list, toolbox.individual) 
+    toolbox.register("map", futures.map)
+
+    models = []
+    #for i in range(10):
+    #    model = model_from_json(open("mlp.json").read()) 
+    #    model.load_weights("mlp_weights_%s.h5" % i)
+    #    models.append(model)
+
+    model = pickle.load(open("rbf_mnist_4.pkl","rb"))
+    models.append(model)
+
+    #model = model_from_json(open("cnn.json").read()) 
+    #model.load_weights("cnn_weights.h5")
+
+    X = [] 
+    for target_output in [ TARGET_OUTPUT ]:
+        for target_image in range(10):
+            print("Target image: %s Target output: %s" % (target_image, target_output))
+            sys.stdout.flush()
+            fit = Fitness(models, target_image, target_output)
+
+            #Genetic operators 
+            toolbox.register("evaluate", fit.evaluate)
+            toolbox.register("mate", cxTwoPointCopy) 
+            toolbox.register("mutate", tools.mutGaussian, mu=0.0, sigma=0.1, indpb=0.05)
+            toolbox.register("select", tools.selTournament, tournsize=3)
+            
+            X.append(mainGA())
             
  
-# save X to file 
-np.save("adversary_inputs_matrix_2",X)
-
-
-
+    # save X to file 
+    np.save("adversary_inputs_against_rbf",X)
 
 
 
