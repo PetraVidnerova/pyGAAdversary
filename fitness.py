@@ -25,18 +25,20 @@ class Fitness:
 
         dist = cdist(np.atleast_2d(individual), np.atleast_2d(self.target))
 
-        X = np.array([individual])
-        res = [] 
-        for model in models:
-            r = self.model.predict(X)
-            res.append(r)
+        #X = np.array([np.array(individual).reshape(1,28,28)])
+        X = np.array([individual]) 
+       
+        res = []
+        for model in self.models:
+            r = model.predict(X)
+            res.append(r[0])
         mean = np.zeros(len(res[0]))
         for r in res:
             mean = mean + r
         mean /= len(res) 
         desired_output = np.zeros(10)
         desired_output[self.target_output] = 1.0 
-        dist2 = cdist(np.atleast_2d(res), np.atleast_2d(desired_output))
+        dist2 = cdist(np.atleast_2d(mean), np.atleast_2d(desired_output))
 
         fit = dist*0.5 + 0.5*dist2
 
