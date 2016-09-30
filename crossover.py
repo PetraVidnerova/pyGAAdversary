@@ -14,3 +14,14 @@ def cxTwoPointCopy(ind1, ind2):
     ind1[cxpoint1:cxpoint2], ind2[cxpoint1:cxpoint2] = ind2[cxpoint1:cxpoint2].copy(), ind1[cxpoint1:cxpoint2].copy()
         
     return ind1, ind2
+
+
+def cxUniform(ind1, ind2): 
+    
+    assert len(ind1) == len(ind2) 
+
+    for i in range(len(ind1)):
+        if random.random()<0.5:
+            ind1[i], ind2[i] = ind2[i].copy(), ind1[i].copy() 
+
+    return ind1, ind2
