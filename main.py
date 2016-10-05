@@ -20,9 +20,9 @@ import pickle
 
 from load_models import load_model
 
-import sys
-sys.path.insert(0, '/home/petra/pyRBF/')
-from rbf import *
+#import sys
+#sys.path.insert(0, '/home/petra/pyRBF/')
+#from rbf import *
 
 #from scoop import futures
 
