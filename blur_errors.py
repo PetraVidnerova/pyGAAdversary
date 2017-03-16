@@ -1,10 +1,18 @@
 import numpy as np
 from keras.datasets import mnist  
-from keras.utils import np_utils 
+from keras.utils import np_utils
+from keras.models import Sequential
 from load_models import load_models, load_model
 from sklearn.metrics import mean_squared_error, accuracy_score
 from scipy import ndimage
 from skimage import filters, restoration
+
+#import sys
+#sys.path.insert(0, '/home/petra/pyRBF/')
+#from rbf import *
+
+
+
 
 nb_classes = 10 
 
@@ -42,8 +50,13 @@ def blur_predict(model, X, type="median", filter_size=3, sigma=1.0):
 
 
 def predict(model, X):
-
-    return model.predict(X) 
+    
+    if isinstance(model, Sequential) or isinstance(model, RBFNet):
+        #for cnn
+        #X = X.reshape(X.shape[0], 28, 28, 1)
+        return model.predict(X)
+    else:
+        return model.predict_proba(X)
 
 
 def evaluate_data(model, X, y):
@@ -68,6 +81,7 @@ if __name__ == "__main__":
     (X_train, y_train), (X_test, y_test) = mnist.load_data() 
     X_train = X_train.reshape(60000, 784)
     X_test = X_test.reshape(10000, 784)
+    # X_test = X_test.reshape(10000, 28, 28, 1)
     X_train = X_train.astype('float32')
     X_test = X_test.astype('float32')
     X_train /= 255

@@ -13,7 +13,7 @@ def generalization_matrix(model_name1, model_name, model):
     Z = None
     for i in range(10):
         try:
-            X = np.load("adversary_inputs_against_{0}_{1}.npy".format(model_name1, i))
+            X = np.load("adversary_inputs/adversary_inputs_against_{0}_{1}.npy".format(model_name1, i))
             z = test_generalization(X, i, model_name, model) 
         except:
             z = 0.5*np.ones(10)
@@ -33,10 +33,11 @@ if __name__ == "__main__":
                     "SVM_linear", "SVM_rbf", "RBF", "DT"]
 
     f, pltarr = plot.subplots(9,9)
+    f.tight_layout()
     #plot.axis('off')
-    for i in range(9):
-        pltarr[8][i].set_xlabel(model_names[i])
-        pltarr[i][0].set_ylabel(model_names[i])
+    #for i in range(9):
+    #   pltarr[8][i].set_xlabel(model_names[i])
+    #   pltarr[i][0].set_ylabel(model_names[i])
 
     for target_model, i in zip(model_names, range(9)):
         for model, j  in zip(model_names, range(9)):
@@ -48,5 +49,5 @@ if __name__ == "__main__":
             plot.setp(pltarr[i][j].get_yticklabels(),visible=False)
             pltarr[i][j].tick_params(axis=u'both', which=u'both',length=0)
 
-    plot.savefig("generalization.png")
+    plot.savefig("generalization.eps")
     plot.show() 
