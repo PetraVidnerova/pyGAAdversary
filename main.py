@@ -14,7 +14,7 @@ from sklearn.svm import SVC
 from fitness import Fitness
 from crossover import cxTwoPointCopy, cxUniform
 
-import matplotlib.pyplot as plot
+#import matplotlib.pyplot as plot
 #from sklearn.externals import joblib 
 import pickle
 
