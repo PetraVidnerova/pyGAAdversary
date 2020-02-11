@@ -46,6 +46,7 @@ for image in range(10):
         ax[image][class_].set_xticklabels([])
         ax[image][class_].imshow(X.reshape(28, 28), vmin=0.0, vmax=1.0,
                                  interpolation='none', cmap=plt.cm.Greys)
+        del X
 
 
 plt.savefig(f"adversary_sample_{MODEL}_{ID}", bbox_inches="tight")
