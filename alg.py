@@ -50,6 +50,7 @@ def myEASimple(population, toolbox, cxpb, mutpb, ngen,
         print("Time ", total_time)
         
         print("Stopka: ", halloffame[0].fitness.values[0],
+              halloffame[0].fitness.values[1],
               halloffame[0].success)
 
         if  ( halloffame[0].fitness.values[0] < treshold 

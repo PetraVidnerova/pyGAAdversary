@@ -32,6 +32,7 @@ def mainGA(target_image, target_output, treshold):
     """ Runs the main loop of GA.""" 
     global toolbox 
 
+
     pop = toolbox.population(n=50)
     hof = tools.HallOfFame(1, similar=np.array_equal)
     
@@ -43,7 +44,7 @@ def mainGA(target_image, target_output, treshold):
   
     pop, log = myEASimple(pop, toolbox, cxpb=CXPB, mutpb=MUTPB, 
                           ngen=NGEN, treshold=treshold, stats=stats, halloffame=hof, 
-                          logbook=tools.Logbook(), verbose=True, id="{}_{}_{}".format(target_image, target_output, treshold))
+                          logbook=tools.Logbook(), verbose=True, id="{}_{}_{}".format(target_output, target_image, treshold))
 
     return hof[0] 
 
@@ -55,10 +56,11 @@ MUTPB = 0.1
 IND_LEN = 784 
 index = 1
 TARGET_OUTPUT = int(sys.argv[2])
-TARGET_IMAGE = [1, 3, 5, 7, 2, 0, 13, 38, 17, 4][int(sys.argv[3])]
+TARGET_IMAGE = int(sys.argv[3])
 #NAME = "adversary_five"
 NAME = sys.argv[1]
 TRESHOLD = float(sys.argv[4])
+MNIST_INDEXES = [1, 3, 5, 7, 2, 0, 13, 38, 17, 4]
 
 #TARGET_IMAGE = int(sys.argv[2])
 #IDX = sys.argv[2] 
@@ -85,7 +87,9 @@ if __name__ == "__main__":
         for target_image in [ TARGET_IMAGE ]:
             print("Target image: %s Target output: %s" % (target_image, target_output))
             sys.stdout.flush()
-            fit = Fitness(NAME, model, target_image, target_output)
+
+            target_image_index = MNIST_INDEXES[target_image]
+            fit = Fitness(NAME, model, target_image_index, target_output)
 
             #Genetic operators 
             toolbox.register("evaluate", fit.evaluate)
