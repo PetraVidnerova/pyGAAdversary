@@ -99,7 +99,7 @@ if __name__ == "__main__":
             toolbox.register("select", tools.selTournament, tournsize=3)
             
             X = mainGA(target_image, target_output, TRESHOLD)
-            np.save("adversary_sample_{}_{}_{}".format(NAME, target_output, target_image), X)
+            np.save("adversary_sample_{}_{}_{}_{}".format(NAME, target_output, target_image, TRESHOLD), X)
 
         #np.save("adversary_inputs_against_%s_%s" % (NAME, target_output), X)
  
