@@ -51,8 +51,8 @@ class Fitness:
         success = self.target_output == model_output.argmax()
 
 
-        #fit = dist*0.5 + 0.5*dist2
+        fit = dist*0.5 + 0.5*dist2
         #fit = dist 
 
-        return dist,  dist2, success
+        return fit, dist, success
  

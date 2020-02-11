@@ -19,11 +19,13 @@ def myEASimple(population, toolbox, cxpb, mutpb, ngen,
         fitnesses_all = list(toolbox.map(toolbox.evaluate, invalid_ind))
 
         sucesses = [ f[2] for f in fitnesses_all ]
-        fitnesses = [ (f[0], f[1]) for f in fitnesses_all ]
+        dists = [ f[1] for f  in fitnesses_all ] 
+        fitnesses = [ (f[0],) for f in fitnesses_all ]
 
-        for ind, fit, suc in zip(invalid_ind, fitnesses, sucesses):
+        for ind, fit, suc, dist in zip(invalid_ind, fitnesses, sucesses, dists):
             ind.fitness.values = fit
             ind.success = suc
+            ind.dist = dist
             
 
         halloffame.update(population)
@@ -49,11 +51,11 @@ def myEASimple(population, toolbox, cxpb, mutpb, ngen,
         total_time = total_time + gen_time
         print("Time ", total_time)
         
-        print("Stopka: ", halloffame[0].fitness.values[0],
-              halloffame[0].fitness.values[1],
+        print("Stopka: ", halloffame[0].fitness.values,
+              halloffame[0].dist,
               halloffame[0].success)
 
-        if  ( halloffame[0].fitness.values[0] < treshold 
+        if  ( halloffame[0].dist < treshold 
               and halloffame[0].success):
             break
 

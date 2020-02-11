@@ -66,7 +66,7 @@ MNIST_INDEXES = [1, 3, 5, 7, 2, 0, 13, 38, 17, 4]
 #IDX = sys.argv[2] 
 
 # weights = (1.0,) stands for one objective fitness
-creator.create("FitnessMax", base.Fitness, weights=(-0.5, -0.5))
+creator.create("FitnessMax", base.Fitness, weights=(-1.0,))
 creator.create("Individual", np.ndarray, fitness=creator.FitnessMax)
 
 
