@@ -49,7 +49,7 @@ def myEASimple(population, toolbox, cxpb, mutpb, ngen,
             
         gen_time = datetime.datetime.now() - start_time
         total_time = total_time + gen_time
-        print("Time ", total_time)
+        print("Time ", total_time, flush=True)
         
         print("Stopka: ", halloffame[0].fitness.values,
               halloffame[0].dist,
