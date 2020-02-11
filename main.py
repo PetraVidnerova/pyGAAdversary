@@ -43,7 +43,7 @@ def mainGA(target_image, target_output, treshold):
   
     pop, log = myEASimple(pop, toolbox, cxpb=CXPB, mutpb=MUTPB, 
                           ngen=NGEN, treshold=treshold, stats=stats, halloffame=hof, 
-                          logbook=tools.Logbook(), verbose=True, id="")
+                          logbook=tools.Logbook(), verbose=True, id="{}_{}_{}".format(target_image, target_output, treshold))
 
     return hof[0] 
 

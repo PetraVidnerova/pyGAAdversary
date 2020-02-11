@@ -47,7 +47,7 @@ class Fitness:
         
         dist2 = cdist(np.atleast_2d(model_output), np.atleast_2d(desired_output))
         
-        print(self.target_output, model_output.argmax())
+#        print(self.target_output, model_output.argmax())
         success = self.target_output == model_output.argmax()
 
 
