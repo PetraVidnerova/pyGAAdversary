@@ -1,4 +1,5 @@
-from keras.models import model_from_json 
+from keras.models import model_from_json
+from keras.models import  load_model as keras_load_model
 from sklearn.svm import SVC 
 import pickle 
 
@@ -12,8 +13,9 @@ def load_MLP():
     return mlp 
 
 def load_CNN(): 
-    cnn = model_from_json(open("models/cnn.json").read()) 
-    cnn.load_weights("models/cnn_weights.h5") 
+    # cnn = model_from_json(open("models/cnn.json").read()) 
+    # cnn.load_weights("models/cnn_weights.h5") 
+    cnn = keras_load_model("models/cnn_mnist.h5")
     return cnn 
 
 #def load_RBF():

@@ -14,6 +14,7 @@ class Fitness:
         X_train = X_train.reshape(60000, 784)
         X_train = X_train.astype('float32') 
         X_train /= 255 
+
         
         self.target_output = target_output
 
@@ -31,7 +32,7 @@ class Fitness:
         dist = cdist(np.atleast_2d(individual), np.atleast_2d(self.target))
 
         if (self.model_name == "CNN"):
-            X = np.array([np.array(individual).reshape(1,28,28)])
+            X = np.array([np.array(individual).reshape(28,28,1)])
         else:
             X = np.array([individual]) 
        
@@ -45,10 +46,13 @@ class Fitness:
         desired_output[self.target_output] = 1.0 
         
         dist2 = cdist(np.atleast_2d(model_output), np.atleast_2d(desired_output))
-            
+        
+        print(self.target_output, model_output.argmax())
+        success = self.target_output == model_output.argmax()
 
-        fit = dist*0.5 + 0.5*dist2
+
+        #fit = dist*0.5 + 0.5*dist2
         #fit = dist 
 
-        return fit, 
+        return dist,  dist2, success
  

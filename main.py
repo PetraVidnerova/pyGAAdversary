@@ -7,6 +7,8 @@ from deap import creator
 from deap import tools
 from deap import algorithms
 
+from alg import myEASimple
+
 from keras.models import model_from_json
 
 from sklearn.svm import SVC 
@@ -26,7 +28,7 @@ from load_models import load_model
 
 #from scoop import futures
 
-def mainGA():
+def mainGA(target_image, target_output, treshold):
     """ Runs the main loop of GA.""" 
     global toolbox 
 
@@ -39,9 +41,9 @@ def mainGA():
     stats.register("min", np.min)
     stats.register("max", np.max)
   
-    pop, log = algorithms.eaSimple(pop, toolbox, cxpb=CXPB, mutpb=MUTPB, 
-                                   ngen=NGEN, stats=stats, halloffame=hof, 
-                                   verbose=False)
+    pop, log = myEASimple(pop, toolbox, cxpb=CXPB, mutpb=MUTPB, 
+                          ngen=NGEN, treshold=treshold, stats=stats, halloffame=hof, 
+                          logbook=tools.Logbook(), verbose=True, id="")
 
     return hof[0] 
 
@@ -53,13 +55,16 @@ MUTPB = 0.1
 IND_LEN = 784 
 index = 1
 TARGET_OUTPUT = int(sys.argv[2])
+TARGET_IMAGE = [1, 3, 5, 7, 2, 0, 13, 38, 17, 4][int(sys.argv[3])]
 #NAME = "adversary_five"
 NAME = sys.argv[1]
+TRESHOLD = float(sys.argv[4])
+
 #TARGET_IMAGE = int(sys.argv[2])
 #IDX = sys.argv[2] 
 
 # weights = (1.0,) stands for one objective fitness
-creator.create("FitnessMax", base.Fitness, weights=(-1.0,))
+creator.create("FitnessMax", base.Fitness, weights=(-0.5, -0.5))
 creator.create("Individual", np.ndarray, fitness=creator.FitnessMax)
 
 
@@ -76,8 +81,8 @@ if __name__ == "__main__":
     # Run the GA for each target image and target output.
     #for target_output in range(10):
     for target_output in [ TARGET_OUTPUT ]:
-        X = [] 
-        for target_image in [1, 3, 5, 7, 2, 0, 13, 38, 17, 4]:
+        #X = [] 
+        for target_image in [ TARGET_IMAGE ]:
             print("Target image: %s Target output: %s" % (target_image, target_output))
             sys.stdout.flush()
             fit = Fitness(NAME, model, target_image, target_output)
@@ -89,9 +94,10 @@ if __name__ == "__main__":
             toolbox.register("mutate", tools.mutGaussian, mu=0.0, sigma=0.1, indpb=0.05)
             toolbox.register("select", tools.selTournament, tournsize=3)
             
-            X.append(mainGA())
+            X = mainGA(target_image, target_output, TRESHOLD)
+            np.save("adversary_sample_%s_%s_%s".format(NAME, target_output, target_image), X)
 
-        np.save("adversary_inputs_against_%s_%s" % (NAME, target_output), X)
+        #np.save("adversary_inputs_against_%s_%s" % (NAME, target_output), X)
  
     # save X to file 
 
