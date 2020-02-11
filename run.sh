@@ -5,7 +5,7 @@ function wait {
 
     while $WAIT 
     do 
-	PS=`pgrep "python" | wc --lines`
+	PS=`ps x | grep "python main.py" | wc --lines`
 	if test $PS -lt 12
 	then
 	    WAIT=false 
@@ -16,25 +16,106 @@ function wait {
 }
 
 function run {
-    wait
-    nohup python main.py $1 $2 > $1_$2.log &
-    sleep 1m 
+#    wait
+    nohup python main.py $1 $2 $3 $4 > $1_$2_$3_$4.log &
+    sleep 5s
 }
 
 
-for I in `seq 4 9`
-do
-    run SVM_rbf $I
-done
-run SVM_sigmoid 2 
-run SVM_sigmoid 3 
-run SVM_sigmoid 4 
-run SVM_sigmoid 5 
-run SVM_sigmoid 6 
-run SVM_sigmoid 7 
-run SVM_sigmoid 8 
-run SVM_sigmoid 9
-for I in `seq 0 9`
-do
-    run RBF $I 
-done  
+# run CNN 1 0 10.0 
+# run CNN 1 0 5.0 
+# run CNN 1 0 3.0 
+# run CNN 1 0 1.0 
+
+run CNN 1 0 0 
+run CNN 1 2 0
+run CNN 1 3 0
+run CNN 1 4 0
+run CNN 1 5 0 
+run CNN 1 6 0
+run CNN 1 7 0
+run CNN 1 8 0
+run CNN 1 9 0
+
+run CNN 0 1 0 
+run CNN 0 2 0
+run CNN 0 3 0
+run CNN 0 4 0
+run CNN 0 5 0 
+run CNN 0 6 0
+run CNN 0 7 0
+run CNN 0 8 0
+run CNN 0 9 0
+
+# run CNN 2 0 0 
+# run CNN 2 1 0
+# run CNN 2 3 0
+# run CNN 2 4 0
+# run CNN 2 5 0 
+# run CNN 2 6 0
+# run CNN 2 7 0
+# run CNN 2 8 0
+# run CNN 2 9 0
+
+
+# run CNN 1 2 1.0 
+# run CNN 1 2 2.0 
+# run CNN 1 2 3.0 
+# run CNN 1 2 4.0
+# run CNN 1 2 5.0  
+# run CNN 1 2 6.0 
+# run CNN 1 2 7.0 
+# run CNN 1 2 8.0 
+# run CNN 1 2 9.0 
+# run CNN 1 2 10.0 
+
+# run CNN 1 3 1.0 
+# run CNN 1 3 2.0 
+# run CNN 1 3 3.0 
+# run CNN 1 3 4.0
+# run CNN 1 3 5.0  
+# run CNN 1 3 6.0 
+# run CNN 1 3 7.0 
+# run CNN 1 3 8.0 
+# run CNN 1 3 9.0 
+# run CNN 1 3 10.0 
+
+
+# run CNN 1 2 1.0 
+# run CNN 1 3 1.0 
+# run CNN 1 4 1.0 
+# run CNN 1 5 1.0 
+# run CNN 1 6 1.0 
+# run CNN 1 7 1.0 
+# run CNN 1 8 1.0 
+# run CNN 1 9 1.0 
+
+# run CNN 0 1 1.0
+# run CNN 0 2 1.0
+# run CNN 0 3 1.0
+# run CNN 0 4 1.0
+# run CNN 0 5 1.0
+# run CNN 0 6 1.0
+# run CNN 0 7 1.0
+# run CNN 0 8 1.0
+# run CNN 0 9 1.0
+
+# run CNN 2 0 1.0
+# run CNN 2 1 1.0
+# run CNN 2 3 1.0
+# run CNN 2 4 1.0
+# run CNN 2 5 1.0
+# run CNN 2 6 1.0
+# run CNN 2 7 1.0
+# run CNN 2 8 1.0
+# run CNN 2 9 1.0
+
+# run SVM_poly 2 0 1.0
+# run SVM_poly 2 1 1.0
+# run SVM_poly 2 3 1.0
+# run SVM_poly 2 4 1.0
+# run SVM_poly 2 5 1.0
+# run SVM_poly 2 6 1.0
+# run SVM_poly 2 7 1.0
+# run SVM_poly 2 8 1.0
+# run SVM_poly 2 9 1.0

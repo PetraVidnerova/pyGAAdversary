@@ -28,7 +28,7 @@ from load_models import load_model
 
 #from scoop import futures
 
-def mainGA(target_image, target_output, treshold):
+def mainGA(target_image, target_output, treshold, id_):
     """ Runs the main loop of GA.""" 
     global toolbox 
 
@@ -44,7 +44,7 @@ def mainGA(target_image, target_output, treshold):
   
     pop, log = myEASimple(pop, toolbox, cxpb=CXPB, mutpb=MUTPB, 
                           ngen=NGEN, treshold=treshold, stats=stats, halloffame=hof, 
-                          logbook=tools.Logbook(), verbose=True, id="{}_{}_{}".format(target_output, target_image, treshold))
+                          logbook=tools.Logbook(), verbose=True, id="{}_{}_{}".format(target_output, target_image, id_))
 
     return hof[0] 
 
@@ -59,7 +59,9 @@ TARGET_OUTPUT = int(sys.argv[2])
 TARGET_IMAGE = int(sys.argv[3])
 #NAME = "adversary_five"
 NAME = sys.argv[1]
-TRESHOLD = float(sys.argv[4])
+# TRESHOLD = float(sys.argv[4])
+TRESHOLD = 0.006
+ID = sys.argv[4]
 MNIST_INDEXES = [1, 3, 5, 7, 2, 0, 13, 38, 17, 4]
 
 #TARGET_IMAGE = int(sys.argv[2])
@@ -98,8 +100,8 @@ if __name__ == "__main__":
             toolbox.register("mutate", tools.mutGaussian, mu=0.0, sigma=0.1, indpb=0.05)
             toolbox.register("select", tools.selTournament, tournsize=3)
             
-            X = mainGA(target_image, target_output, TRESHOLD)
-            np.save("adversary_sample_{}_{}_{}_{}".format(NAME, target_output, target_image, TRESHOLD), X)
+            X = mainGA(target_image, target_output, TRESHOLD, ID)
+            np.save("adversary_sample_{}_{}_{}_{}".format(NAME, target_output, target_image, ID), X)
 
         #np.save("adversary_inputs_against_%s_%s" % (NAME, target_output), X)
  
