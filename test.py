@@ -14,6 +14,8 @@ ID = sys.argv[2]
 #     for treshold in np.linspace(0.001, 0.010, 10)
 # ]
 
+cnn = load_model(MODEL)
+
 fig, ax = plt.subplots(10, 10)
 
 for image in range(10):
@@ -29,7 +31,6 @@ for image in range(10):
             success = False
 
         if success:
-            cnn = load_model(MODEL)
             pred = cnn.predict(X.reshape(1, 28, 28, 1))
 
             print("Prediction: ", pred.argmax())
@@ -48,4 +49,4 @@ for image in range(10):
 
 
 plt.savefig(f"adversary_sample_{MODEL}_{ID}", bbox_inches="tight")
-plt.show()
+#plt.show()
