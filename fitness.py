@@ -29,7 +29,8 @@ class Fitness:
 
     def evaluate(self, individual):
 
-        dist = (cdist(np.atleast_2d(individual), np.atleast_2d(self.target)))
+        dist = cdist(np.atleast_2d(individual), np.atleast_2d(self.target))
+        dist /= self.target.size
 
         if (self.model_name == "CNN"):
             X = np.array([np.array(individual).reshape(28,28,1)])
@@ -46,10 +47,13 @@ class Fitness:
         desired_output[self.target_output] = 1.0 
         
         dist2 = cdist(np.atleast_2d(model_output), np.atleast_2d(desired_output))
-        
+        dist2 /= 10 # FIXME number of classes
+
 #        print(self.target_output, model_output.argmax())
         success = self.target_output == model_output.argmax()
 
+        if not success: 
+            dist2 += 1.0 # penalty
 
         fit = dist*0.5 + 0.5*dist2
         #fit = dist 
