@@ -21,7 +21,9 @@ fig, ax = plt.subplots(10, 10)
 
 for image in range(10):
     for class_ in range(10):
-        filename = f"{ADR}/adversary_sample_{MODEL}_{class_}_{image}_{ID}.npy"
+        # filename = f"results/adversary_sample_{MODEL}_{class_}_{image}_{ID}.npy"
+        filename = "{}/adversary_sample_{}_{}_{}_{}.npy".format(ADR, MODEL, class_, image, ID)
+
         print(filename)
 
         success = True
@@ -50,5 +52,6 @@ for image in range(10):
         del X
 
 
-plt.savefig(f"adversary_sample_{MODEL}_{ID}", bbox_inches="tight")
+# plt.savefig(f"adversary_sample_{MODEL}_{ID}", bbox_inches="tight")
+plt.savefig("adversary_sample_{}_{}".format(MODEL, ID), bbox_inches="tight")
 #plt.show()
