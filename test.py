@@ -34,10 +34,13 @@ for image in range(10):
             success = False
 
         if success:
-            pred = cnn.predict(X.reshape(1, 28, 28, 1))
+            shape = (1, 28, 28, 1) if MODEL=="CNN" else (1, 28*28)
+            pred = cnn.predict(X.reshape(*shape))
 
-            print("Prediction: ", pred.argmax())
-            if pred.argmax() == int(class_):
+            if MODEL in ("CNN", "MLP"):
+                pred = pred.argmax()
+            print("Prediction: ", pred)
+            if pred == int(class_):
                 print("Classification: CORRECT")
             else:
                 print("Classification: WRONG")
