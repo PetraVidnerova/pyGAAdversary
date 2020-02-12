@@ -6,6 +6,7 @@ from load_models import load_model
 
 MODEL = sys.argv[1]
 ID = sys.argv[2]
+ADR = sys.argv[3]
 # OUTPUT = sys.argv[2]
 # IMAGE = sys.argv[3]
 
@@ -20,7 +21,7 @@ fig, ax = plt.subplots(10, 10)
 
 for image in range(10):
     for class_ in range(10):
-        filename = f"results/adversary_sample_{MODEL}_{class_}_{image}_{ID}.npy"
+        filename = f"{ADR}/adversary_sample_{MODEL}_{class_}_{image}_{ID}.npy"
         print(filename)
 
         success = True

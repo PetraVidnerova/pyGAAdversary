@@ -19,7 +19,7 @@ def myEASimple(population, toolbox, cxpb, mutpb, ngen,
         fitnesses_all = list(toolbox.map(toolbox.evaluate, invalid_ind))
 
         sucesses = [ f[2] for f in fitnesses_all ]
-        dists = [ f[1] for f  in fitnesses_all ] 
+        dists = [ (f[1], f[3]) for f  in fitnesses_all ] 
         fitnesses = [ (f[0],) for f in fitnesses_all ]
 
         for ind, fit, suc, dist in zip(invalid_ind, fitnesses, sucesses, dists):
@@ -55,7 +55,7 @@ def myEASimple(population, toolbox, cxpb, mutpb, ngen,
               halloffame[0].dist,
               halloffame[0].success)
 
-        if  ( halloffame[0].dist < treshold 
+        if  ( halloffame[0].dist[0] < treshold 
               and halloffame[0].success):
             break
 
