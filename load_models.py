@@ -8,8 +8,9 @@ import pickle
 #from rbf import *
 
 def load_MLP():
-    mlp = model_from_json(open("models/mlp.json").read())
-    mlp.load_weights("models/mlp_weights.h5") 
+    # mlp = model_from_json(open("models/mlp.json").read())
+    # mlp.load_weights("models/mlp_weights.h5") 
+    mlp = keras_load_model("models/mlp_mnist.h5")
     return mlp 
 
 def load_CNN(): 
