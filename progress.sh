@@ -1,20 +1,6 @@
-for MODEL in "MLP" "CNN" "DT" "RBF" "SVM_rbf" "SVM_linear" "SVM_sigmoid" "SVM_poly" "SVM_poly4"
-do
-    echo -n "$MODEL "
-    for I in `seq 0 9`
-    do
-	if [ -e "adversary_inputs_against_${MODEL}_$I.npy" ]
-	then
-	    echo -n "$I "
-	else 
-	    if test `ps x | grep "$MODEL $I" | wc --lines` -gt 1
-	    then 
-		echo -n "r"
-	    else
-		echo -n "-"
-	    fi
-	fi
-    done 
-    echo 
+MODEL=$1
+for ID in `seq 0 9`; do 
+    echo -n "$ID: "
+    ls -1 adversary_sample_${MODEL}_?_?_$ID.npy  2>/dev/null| wc --lines
 done
 

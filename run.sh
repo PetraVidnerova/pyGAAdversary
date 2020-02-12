@@ -6,7 +6,7 @@ function wait {
     while $WAIT 
     do 
 	PS=`ps x | grep "python main.py" | wc --lines`
-	if test $PS -lt 28
+	if test $PS -lt 31
 	then
 	    WAIT=false 
 	else 
@@ -23,7 +23,7 @@ function run {
 
 
 
-for ID in `seq 3 9`; do
+for ID in 1; do
     for TARGET in `seq 0 9`; do
 	for IMAGE in `seq 0 9`; do
 	    if test $TARGET -ne $IMAGE; then
