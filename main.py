@@ -60,7 +60,7 @@ TARGET_IMAGE = int(sys.argv[3])
 #NAME = "adversary_five"
 NAME = sys.argv[1]
 # TRESHOLD = float(sys.argv[4])
-TRESHOLD = 0.006
+TRESHOLD = 10.0
 ID = sys.argv[4]
 MNIST_INDEXES = [1, 3, 5, 7, 2, 0, 13, 38, 17, 4]
 
