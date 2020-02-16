@@ -52,10 +52,15 @@ class Fitness:
 #        print(self.target_output, model_output.argmax())
         success = self.target_output == model_output.argmax()
 
+        if dist < 0.01:
+            dist /= 100
+        if success:
+            dist2 /= 100
+
         # if not success: 
         #     dist2 += 0.5 # penalty
 
-        fit = dist*0.5 + 0.5*dist2
+        fit = dist*0.8 + 0.2*dist2
         #fit = dist 
 
         return fit, dist, success, dist2
