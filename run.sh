@@ -24,14 +24,18 @@ function run {
 }
 
 
-
-for ID in `seq 0 9`; do
-    for TARGET in `seq 0 9`; do
-	for IMAGE in `seq 0 9`; do
-	    if test $TARGET -ne $IMAGE; then
-		run MLP $TARGET $IMAGE $ID
-	    fi
-	done
-    done 
+for MODEL in CNN MLP SVM_rbf SVM_linear  SVM_sigmoid SVM_poly SVM_poly4 RBF DT; do
+    if $MODEL -eq "RBF"; then
+	export N_PROC=10
+    fi	
+    for ID in "0_N0_5"; do
+	for TARGET in `seq 0 9`; do
+	    for IMAGE in `seq 0 9`; do
+		if test $TARGET -ne $IMAGE; then
+		    run $MODEL $TARGET $IMAGE $ID
+		fi
+	    done
+	done 
+    done
 done
 
