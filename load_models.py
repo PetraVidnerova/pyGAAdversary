@@ -3,6 +3,9 @@ from keras.models import  load_model as keras_load_model
 from sklearn.svm import SVC 
 import pickle 
 
+from tensorflow.keras.models import load_model as tf_load_model
+from rbflayer import RBFLayer
+
 #import sys
 #sys.path.insert(0, '/home/petra/pyRBF/')
 #from rbf import *
@@ -20,7 +23,9 @@ def load_CNN():
     cnn = keras_load_model("models/cnn_mnist.h5")
     return cnn 
 
-#def load_RBF():
+def load_RBF():
+    return tf_load_model("models/rbf.h5",
+                            custom_objects={'RBFLayer': RBFLayer}   )
 #    return pickle.load(open("models/rbf_mnist_4.pkl", "rb"))
 
 def load_SVM(kernel):
@@ -32,7 +37,7 @@ def load_DT():
 func_dict = {}  
 func_dict["MLP"] = load_MLP 
 func_dict["CNN"] = load_CNN 
-#func_dict["RBF"] = load_RBF
+func_dict["RBF"] = load_RBF
 func_dict["DT"] = load_DT 
 func_dict["SVM_linear"] = lambda: load_SVM("linear")
 func_dict["SVM_rbf"] = lambda: load_SVM("rbf") 

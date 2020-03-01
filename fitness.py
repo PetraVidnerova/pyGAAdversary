@@ -60,7 +60,7 @@ class Fitness:
         # if not success: 
         #     dist2 += 0.5 # penalty
 
-        fit = dist*0.5 + 0.5*dist2
+        fit = dist*0.9 + 0.1*dist2
         #fit = dist 
 
         return fit, dist, success, dist2
