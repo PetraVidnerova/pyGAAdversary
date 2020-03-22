@@ -7,7 +7,7 @@ from deap import creator
 from deap import tools
 from deap import algorithms
 
-from alg import myEASimple
+from alg import nsga
 
 from keras.models import model_from_json
 
@@ -34,7 +34,8 @@ def mainGA(target_image, target_output, treshold, id_):
     global toolbox
 
     pop = toolbox.population(n=50)
-    hof = tools.HallOfFame(1, similar=np.array_equal)
+    # hof = tools.HallOfFame(1, similar=np.array_equal)
+    hof = tools.ParetoFront(similar=np.array_equal)
 
     stats = tools.Statistics(lambda ind: ind.fitness.values)
     stats.register("avg", np.mean)
@@ -42,11 +43,11 @@ def mainGA(target_image, target_output, treshold, id_):
     stats.register("min", np.min)
     stats.register("max", np.max)
 
-    pop, log = myEASimple(pop, toolbox, cxpb=CXPB, mutpb=MUTPB,
+    pop, log, best = nsga(pop, toolbox, cxpb=CXPB, mutpb=MUTPB,
                           ngen=NGEN, treshold=treshold, stats=stats, halloffame=hof,
-                          logbook=tools.Logbook(), verbose=True, id="{}_{}_{}".format(target_output, target_image, id_))
+                          logbook=tools.Logbook(), verbose=True, exp_id="{}_{}_{}".format(target_output, target_image, id_))
 
-    return hof[0]
+    return best
 
 
 NGEN = 10000
@@ -67,7 +68,8 @@ MNIST_INDEXES = [1, 3, 5, 7, 2, 0, 13, 38, 17, 4]
 #IDX = sys.argv[2]
 
 # weights = (1.0,) stands for one objective fitness
-creator.create("FitnessMax", base.Fitness, weights=(-1.0,))
+creator.create("FitnessMax", base.Fitness,
+               weights=(-1.0, -1.0))  # minimize both terms
 creator.create("Individual", np.ndarray, fitness=creator.FitnessMax)
 
 
@@ -100,7 +102,7 @@ if __name__ == "__main__":
             #toolbox.register("mate", cxUniform)
             toolbox.register("mutate", tools.mutGaussian,
                              mu=0.0, sigma=0.1, indpb=0.05)
-            toolbox.register("select", tools.selTournament, tournsize=3)
+            toolbox.register("select", tools.selNSGA2)
 
             X = mainGA(target_image, target_output, TRESHOLD, ID)
             np.save("adversary_sample_{}_{}_{}_{}".format(
